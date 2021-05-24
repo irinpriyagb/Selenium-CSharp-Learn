@@ -5,8 +5,14 @@ using System.Text;
 
 namespace SeleniumCSharpNetCore.Pages
 {
-    class LoginPage : DriverHelper
+    class LoginPage
     {
+        private DriverHelper _driverHelper;
+        public LoginPage(DriverHelper driverHelper)
+        {
+            _driverHelper = driverHelper;
+        }
+
         #region Locators
         By usernameBy => By.Id("UserName");
         By passwordBy => By.Id("Password");
@@ -14,16 +20,22 @@ namespace SeleniumCSharpNetCore.Pages
         #endregion
 
         #region WebElements
-        IWebElement Username => Driver.FindElement(usernameBy);
-        IWebElement Password => Driver.FindElement(passwordBy);
-        IWebElement LoginBtn => Driver.FindElement(loginBy);
+        IWebElement Username => _driverHelper.Driver.FindElement(usernameBy);
+        IWebElement Password => _driverHelper.Driver.FindElement(passwordBy);
+        IWebElement LoginBtn => _driverHelper.Driver.FindElement(loginBy);
+
+        public DriverHelper DriverHelper { get; }
         #endregion
 
         #region Actions
-        public void Login(String name, String pass)
+        public void EnterUsernameAndPassword(String name, String pass)
         {
             Username.SendKeys(name);
             Password.SendKeys(pass);
+        }
+
+        public void ClickLogin()
+        {
             LoginBtn.Click();
         }
         #endregion
