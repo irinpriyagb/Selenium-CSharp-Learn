@@ -2,6 +2,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using SeleniumCSharpNetCore.Pages;
 using System;
 
 namespace SeleniumCSharpNetCore
@@ -28,9 +29,19 @@ namespace SeleniumCSharpNetCore
             CustomControl.ComboBox("ContentPlaceHolder1_AllMealsCombo", "Almond");
             
             //comboBox.SendKeys(Keys.Enter);
-            
-            Console.WriteLine("Test1");
             Assert.Pass();
+        }
+
+        [Test]
+        public void LoginTest()
+        {
+            Driver.Navigate().GoToUrl("http://eaapp.somee.com/");
+
+            HomePage homePage = new HomePage();
+            LoginPage loginPage = new LoginPage();
+            homePage.ClickLogin();
+            loginPage.Login("admin", "password");
+            Assert.IsTrue(homePage.IsLogOffExist());
         }
     }
 }
